@@ -21,8 +21,7 @@ It is designed for grocery stores and small retailers, focusing on simplicity, s
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/yourusername/kiosk-pos.git
-   cd kiosk-pos
+   git clone https://github.com/nirinovich/pos-kivy.git
    ```
 
 2. **Install dependencies:**
