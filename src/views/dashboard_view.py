@@ -11,7 +11,6 @@ class DashboardView(BoxLayout):
         self.padding = 40
         self.spacing = 30
 
-        # Title
         self.add_widget(Label(
             text="K'iosk POS Dashboard",
             font_size='28sp',
@@ -20,17 +19,15 @@ class DashboardView(BoxLayout):
             halign='center'
         ))
 
-        # Main buttons grid
         grid = GridLayout(cols=2, spacing=20, size_hint_y=0.5)
         grid.add_widget(Button(text="New Sale", font_size='20sp', on_press=self.on_new_sale))
-        grid.add_widget(Button(text="Inventory", font_size='20sp', on_press=self.on_inventory))
+        grid.add_widget(Button(text="Product Management", font_size='20sp', on_press=self.on_product_management))
         grid.add_widget(Button(text="Reports", font_size='20sp', on_press=self.on_reports))
         grid.add_widget(Button(text="Settings", font_size='20sp', on_press=self.on_settings))
         self.add_widget(grid)
 
-        # Status area
         self.status_label = Label(
-            text="Store: OPEN\nSales Today: 0.00 Ar\nLast Sync: --",
+            text="Store: OPEN\nSales Today: $0.00\nLast Sync: --",
             font_size='16sp',
             size_hint_y=0.2,
             halign='left',
@@ -39,14 +36,13 @@ class DashboardView(BoxLayout):
         self.status_label.bind(size=self.status_label.setter('text_size'))
         self.add_widget(self.status_label)
 
-    # Button handlers (to be connected to controller logic)
     def on_new_sale(self, instance):
         if self.controller:
             self.controller.go_to_new_sale()
 
-    def on_inventory(self, instance):
+    def on_product_management(self, instance):
         if self.controller:
-            self.controller.go_to_inventory()
+            self.controller.go_to_product_management()
 
     def on_reports(self, instance):
         if self.controller:

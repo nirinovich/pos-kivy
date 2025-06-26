@@ -2,9 +2,8 @@ import sqlite3
 import bcrypt
 
 class UserModel:
-    def __init__(self, db_path="pos.db"):
-        self.db_path = db_path
-        self.conn = sqlite3.connect(self.db_path)
+    def __init__(self, conn):
+        self.conn = conn
         self.create_user_table()
 
     def create_user_table(self):
