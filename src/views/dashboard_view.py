@@ -1,37 +1,87 @@
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-from kivy.uix.gridlayout import GridLayout
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
+from kivymd.uix.label import MDLabel
+from kivymd.uix.gridlayout import MDGridLayout
+from kivymd.uix.card import MDCard
+from kivy.metrics import dp
+from kivy.utils import get_color_from_hex
 
-class DashboardView(BoxLayout):
+class DashboardView(MDBoxLayout):
     def __init__(self, controller=None, **kwargs):
         super().__init__(**kwargs)
         self.controller = controller
         self.orientation = 'vertical'
-        self.padding = 40
-        self.spacing = 30
+        self.padding = [dp(40), dp(40), dp(40), dp(40)]
+        self.spacing = dp(30)
+        self.md_bg_color = get_color_from_hex("#F5F6FA")  # Light background
 
-        self.add_widget(Label(
+        self.add_widget(MDLabel(
             text="K'iosk POS Dashboard",
-            font_size='28sp',
-            size_hint_y=0.2,
+            font_size=dp(32),
             bold=True,
-            halign='center'
+            size_hint_y=0.2,
+            halign='center',
+            theme_text_color="Primary"
         ))
 
-        grid = GridLayout(cols=2, spacing=20, size_hint_y=0.5)
-        grid.add_widget(Button(text="New Sale", font_size='20sp', on_press=self.on_new_sale))
-        grid.add_widget(Button(text="Product Management", font_size='20sp', on_press=self.on_product_management))
-        grid.add_widget(Button(text="Reports", font_size='20sp', on_press=self.on_reports))
-        grid.add_widget(Button(text="Settings", font_size='20sp', on_press=self.on_settings))
-        self.add_widget(grid)
+        card = MDCard(
+            orientation="vertical",
+            padding=dp(24),
+            size_hint=(None, None),
+            size=(dp(600), dp(260)),
+            elevation=8,
+            pos_hint={"center_x": 0.5},
+            md_bg_color=get_color_from_hex("#FFFFFF"),
+        )
 
-        self.status_label = Label(
+        grid = MDGridLayout(cols=2, spacing=dp(20), size_hint_y=None, height=dp(180))
+
+        grid.add_widget(
+            MDButton(
+                MDButtonIcon(icon="cash-register"),
+                MDButtonText(text="New Sale"),
+                style="elevated",
+                on_release=self.on_new_sale,
+                pos_hint={"center_x": 0.5, "center_y": 0.5},
+            )
+        )
+        grid.add_widget(
+            MDButton(
+                MDButtonIcon(icon="package-variant"),
+                MDButtonText(text="Product Management"),
+                style="elevated",
+                on_release=self.on_product_management,
+                pos_hint={"center_x": 0.5, "center_y": 0.5},
+            )
+        )
+        grid.add_widget(
+            MDButton(
+                MDButtonIcon(icon="chart-bar"),
+                MDButtonText(text="Reports"),
+                style="elevated",
+                on_release=self.on_reports,
+                pos_hint={"center_x": 0.5, "center_y": 0.5},
+            )
+        )
+        grid.add_widget(
+            MDButton(
+                MDButtonIcon(icon="cog"),
+                MDButtonText(text="Settings"),
+                style="elevated",
+                on_release=self.on_settings,
+                pos_hint={"center_x": 0.5, "center_y": 0.5},
+            )
+        )
+        card.add_widget(grid)
+        self.add_widget(card)
+
+        self.status_label = MDLabel(
             text="Store: OPEN\nSales Today: $0.00\nLast Sync: --",
-            font_size='16sp',
+            font_size=dp(18),
             size_hint_y=0.2,
             halign='left',
-            valign='top'
+            valign='top',
+            theme_text_color="Secondary"
         )
         self.status_label.bind(size=self.status_label.setter('text_size'))
         self.add_widget(self.status_label)

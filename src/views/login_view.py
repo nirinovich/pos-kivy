@@ -1,29 +1,48 @@
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.label import MDLabel
+from kivymd.uix.textfield import MDTextField
+from kivymd.uix.button import MDButton, MDButtonText
+from kivy.metrics import dp
+from kivy.utils import get_color_from_hex
 
-class LoginView(BoxLayout):
+class LoginView(MDBoxLayout):
     def __init__(self, controller=None, **kwargs):
         super().__init__(**kwargs)
         self.controller = controller
         self.orientation = 'vertical'
-        self.padding = 50
-        self.spacing = 20
+        self.padding = [dp(50), dp(50), dp(50), dp(50)]
+        self.spacing = dp(20)
+        self.md_bg_color = get_color_from_hex("#F5F6FA")
 
-        self.add_widget(Label(text="🔐 Login to K'iosk", font_size='24sp', size_hint_y=0.2))
+        self.add_widget(MDLabel(
+            text="Login to K'iosk",
+            font_size='24sp',
+            size_hint_y=0.2,
+            halign="center",
+            theme_text_color="Primary"
+        ))
 
-        self.username_input = TextInput(hint_text='Username', multiline=False, size_hint_y=0.15)
+        self.username_input = MDTextField(hint_text='Username', size_hint_y=0.15)
         self.add_widget(self.username_input)
 
-        self.password_input = TextInput(hint_text='Password', multiline=False, password=True, size_hint_y=0.15)
+        self.password_input = MDTextField(hint_text='Password', password=True, size_hint_y=0.15)
         self.add_widget(self.password_input)
 
-        self.status_label = Label(text='', font_size='16sp', size_hint_y=0.1)
+        self.status_label = MDLabel(
+            text='',
+            font_size='16sp',
+            size_hint_y=0.1,
+            halign="center",
+            theme_text_color="Primary"
+        )
         self.add_widget(self.status_label)
 
-        login_btn = Button(text='Login', size_hint_y=0.15, font_size='18sp')
-        login_btn.bind(on_press=self.on_login)
+        login_btn = MDButton(
+            MDButtonText(text='Login'),
+            style="elevated",
+            size_hint_y=0.15,
+            on_release=self.on_login
+        )
         self.add_widget(login_btn)
 
     def on_login(self, instance):
