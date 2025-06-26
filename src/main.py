@@ -3,6 +3,7 @@ from kivy.uix.boxlayout import BoxLayout
 import sqlite3
 
 from models.user import UserModel
+from models.category import CategoryModel
 from models.product import ProductModel
 from controllers.login_controller import LoginController
 from controllers.product_controller import ProductController
@@ -13,20 +14,12 @@ from views.product_view import ProductView
 class POSApp(App):
     def build(self):
         self.conn = sqlite3.connect("pos.db", check_same_thread=False)
-        self.user_model = UserModel(self.conn)
+        self.category_model = CategoryModel(self.conn)
         self.product_model = ProductModel(self.conn)
-        self.product_controller = ProductController(self.product_model)
-        self.user_model.add_user("admin", "admin123")
+        self.product_controller = ProductController(self.product_model, self.category_model, app=self)
         self.root_widget = BoxLayout()
-        self.show_login()
+        self.show_dashboard()
         return self.root_widget
-
-    def show_login(self):
-        login_view = LoginView()
-        login_controller = LoginController(login_view, self.user_model, self)
-        login_view.controller = login_controller
-        self.root_widget.clear_widgets()
-        self.root_widget.add_widget(login_view)
 
     def show_dashboard(self):
         dashboard_view = DashboardView(controller=self)
