@@ -52,9 +52,9 @@ It is designed for grocery stores and small retailers, focusing on simplicity, s
 - [x] Simple test screen after login
 
 ### v0.2
-- [ ] Dashboard UI (New Sale, Inventory, Reports, Settings)
-- [ ] Product management (add/edit/delete products)
-- [ ] Inventory tracking
+- [x] Dashboard UI (New Sale, Inventory, Reports, Settings)
+- [x] Product management (add/edit/delete products)
+- [ ] Upgrade to KivyMD
 
 ### v0.3
 - [ ] Sales processing (scan/add products, calculate totals, print receipts)
