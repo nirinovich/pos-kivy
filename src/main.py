@@ -9,6 +9,7 @@ from models.product import ProductModel
 
 from controllers.login_controller import LoginController
 from controllers.product_controller import ProductController
+from controllers.category_controller import CategoryController
 
 from views.login_view import LoginView
 from views.dashboard_view import DashboardView
@@ -22,11 +23,11 @@ class POSApp(MDApp):
         self.theme_cls.primary_palette = "Blue"  # or "Indigo", "Teal", etc.
         self.theme_cls.primary_hue = "500"
         
-        self.conn = sqlite3.connect("pos.db", check_same_thread=False)
+        self.conn = sqlite3.connect("pos.db", check_same_thread=False, timeout=10)        
         self.category_model = CategoryModel(self.conn)
         self.product_model = ProductModel(self.conn)
         self.user_model = UserModel(self.conn)
-        
+
         self.login_controller = LoginController(view=None, user_model=self.user_model, app=self)
         self.product_controller = ProductController(self.product_model, self.category_model, app=self)
         
@@ -49,8 +50,13 @@ class POSApp(MDApp):
         self.root_widget.add_widget(dashboard_view)
 
     def show_category_management(self):
-        self.root.clear_widgets()
-        self.root.add_widget(CategoryView())
+        # Properly wire up the category MVC
+        category_controller = CategoryController(self.category_model, None)  # View will be set after creation
+        category_view = CategoryView(category_controller)
+        category_controller.view = category_view
+
+        self.root_widget.clear_widgets()
+        self.root_widget.add_widget(category_view)
 
     def go_to_product_management(self):
         product_view = ProductView(controller=self.product_controller)
@@ -73,9 +79,3 @@ if __name__ == '__main__':
     print("🚀 Starting K'iosk...")
     print("=" * 60)
     POSApp().run()
-
-if __name__ == '__main__':
-    # Create DB connection
-    conn = sqlite3.connect("pos.db", check_same_thread=False)
-    user_model = UserModel(conn)
-    user_model.add_user("admin", "admin123")

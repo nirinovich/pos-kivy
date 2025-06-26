@@ -1,20 +1,24 @@
-from models.category import CategoryModel  # adjust import as needed
-
 class CategoryController:
-    def __init__(self, view):
+    def __init__(self, model, view):
+        self.model = model
         self.view = view
 
+    def refresh_categories(self):
+        categories = self.model.get_all()
+        self.view.update_category_list(categories)
+
     def add_category(self, name):
-        # Add logic to save to DB
         if not name.strip():
-            self.view.update_status("Category name cannot be empty.")
+            self.view.update_status("Category name required.")
             return
-        # Example: Category.create(name)
-        self.view.update_status(f"Added category: {name}")
+        success = self.model.add(name.strip())
+        if success:
+            self.view.update_status("Category added.")
+        else:
+            self.view.update_status("Category already exists.")
         self.refresh_categories()
 
-    def refresh_categories(self):
-        # Fetch categories from DB
-        # Example: categories = Category.get_all()
-        categories = []  # Replace with real fetch
-        self.view.update_category_list(categories)
+    def delete_category(self, category_id):
+        self.model.delete(category_id)
+        self.refresh_categories()
+        self.view.update_status("Category deleted.")

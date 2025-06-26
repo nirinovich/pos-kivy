@@ -59,22 +59,6 @@ class ProductController:
         self.refresh_products()
         self.product_view.update_status("Product deleted.")
 
-    # --- Category logic ---
-    def refresh_categories(self):
-        categories = self.category_model.get_all()
-        if self.product_view:
-            self.product_view.update_category_spinner(categories)
-        if self.category_view:
-            self.category_view.update_category_list(categories)
-
-    def add_category(self, name):
-        if not name:
-            self.category_view.update_status("Category name required.")
-            return
-        self.category_model.add(name)
-        self.refresh_categories()
-        self.category_view.update_status("Category added.")
-
     # --- Navigation ---
     def show_category_page(self):
         from views.product_view import CategoryView
@@ -82,10 +66,9 @@ class ProductController:
         self.set_category_view(category_view)
         self.app.root_widget.clear_widgets()
         self.app.root_widget.add_widget(category_view)
+        self.refresh_categories()
 
-    def show_product_page(self):
-        from views.product_view import ProductView
-        product_view = ProductView(controller=self)
-        self.set_view(product_view)
-        self.app.root_widget.clear_widgets()
-        self.app.root_widget.add_widget(product_view)
+    def refresh_categories(self):
+        categories = self.category_model.get_all()
+        if self.product_view:
+            self.product_view.update_category_spinner(categories)
