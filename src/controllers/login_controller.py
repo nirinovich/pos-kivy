@@ -10,6 +10,6 @@ class LoginController:
             return
         if self.user_model.verify_user(username, password):
             self.view.update_status("Login successful!")
-            self.app.show_test()
+            self.app.show_dashboard()
         else:
             self.view.update_status("Invalid credentials.")

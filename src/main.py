@@ -5,6 +5,7 @@ from kivy.uix.label import Label
 from models.user import UserModel
 from views.login_view import LoginView
 from controllers.login_controller import LoginController
+from views.dashboard_view import DashboardView  # <-- Add this import
 
 class POSApp(App):
     def build(self):
@@ -22,15 +23,10 @@ class POSApp(App):
         self.root_widget.clear_widgets()
         self.root_widget.add_widget(login_view)
 
-    def show_test(self):
-        test_label = Label(
-            text="✅ Login successful!\nWelcome to K'iosk POS Prototype.",
-            font_size='22sp',
-            halign='center',
-            valign='middle'
-        )
+    def show_dashboard(self):
+        dashboard_view = DashboardView()
         self.root_widget.clear_widgets()
-        self.root_widget.add_widget(test_label)
+        self.root_widget.add_widget(dashboard_view)
 
 # Run the application
 if __name__ == '__main__':
