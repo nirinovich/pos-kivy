@@ -1,7 +1,8 @@
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.uix.label import MDLabel
-from kivymd.uix.textfield import MDTextField
-from kivymd.uix.button import MDButton, MDButtonText
+from kivymd.uix.textfield import MDTextField, MDTextFieldHintText
+from kivymd.uix.button import MDButton, MDButtonText, MDButtonIcon
 from kivy.metrics import dp
 from kivy.utils import get_color_from_hex
 
@@ -15,35 +16,61 @@ class LoginView(MDBoxLayout):
         self.md_bg_color = get_color_from_hex("#F5F6FA")
 
         self.add_widget(MDLabel(
-            text="Login to K'iosk",
-            font_size='24sp',
-            size_hint_y=0.2,
-            halign="center",
-            theme_text_color="Primary"
+            text = "Login to K'iosk",
+            font_size = '24sp',
+            size_hint_y = 0.2,
+            halign = "center"
         ))
 
-        self.username_input = MDTextField(hint_text='Username', size_hint_y=0.15)
-        self.add_widget(self.username_input)
-
-        self.password_input = MDTextField(hint_text='Password', password=True, size_hint_y=0.15)
-        self.add_widget(self.password_input)
-
         self.status_label = MDLabel(
-            text='',
-            font_size='16sp',
-            size_hint_y=0.1,
-            halign="center",
-            theme_text_color="Primary"
+            text = '',
+            font_size = '16sp',
+            size_hint_y = 0.1,
+            halign = "center",
+            theme_text_color = "Primary"
         )
         self.add_widget(self.status_label)
 
-        login_btn = MDButton(
-            MDButtonText(text='Login'),
-            style="elevated",
-            size_hint_y=0.15,
-            on_release=self.on_login
+        self.username_input = MDTextField(
+            MDTextFieldHintText(text = "Username",),
+            theme_text_color = "Secondary"
+
         )
-        self.add_widget(login_btn)
+        
+        self.add_widget(self.username_input)
+
+        self.password_input = MDTextField(
+            MDTextFieldHintText(text = "Password"),
+            passwor = True)
+        
+        self.add_widget(self.password_input)
+
+        grid = MDGridLayout(
+            cols = 2, 
+            spacing = dp(40), 
+            size_hint_y = None, 
+            height = dp(180))
+
+        grid.add_widget(
+            MDButton(
+                MDButtonIcon(icon = "login"),
+                MDButtonText(text = "Login"),
+                style = "elevated",
+                pos_hint = {"center_x": 0.5, "center_y": 0.5},
+                on_release = self.on_login
+            )
+        )
+        
+        grid.add_widget(
+            MDButton(
+                MDButtonIcon(icon = "account-plus"),
+                MDButtonText(text = "Register"),
+                style = "elevated",
+                pos_hint = {"center_x": 0.5, "center_y": 0.5},
+            )
+        )
+
+        self.add_widget(grid)
 
     def on_login(self, instance):
         if self.controller:
