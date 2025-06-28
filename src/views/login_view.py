@@ -41,7 +41,7 @@ class LoginView(MDBoxLayout):
 
         self.password_input = MDTextField(
             MDTextFieldHintText(text = "Password"),
-            passwor = True)
+            password = True)
         
         self.add_widget(self.password_input)
 
