@@ -13,3 +13,6 @@ class LoginController:
             self.app.show_dashboard()
         else:
             self.view.update_status("Invalid credentials.")
+
+    def go_to_register(self):
+        self.app.show_register()

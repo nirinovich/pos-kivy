@@ -15,6 +15,7 @@ from views.login_view import LoginView
 from views.dashboard_view import DashboardView
 from views.product_view import ProductView
 from views.category_view import CategoryView
+from views.register_view import RegisterView
 
 
 class POSApp(MDApp):
@@ -57,6 +58,18 @@ class POSApp(MDApp):
 
         self.root_widget.clear_widgets()
         self.root_widget.add_widget(category_view)
+
+    def show_register(self):
+        from controllers.register_controller import RegisterController
+        from views.register_view import RegisterView
+
+        register_view = RegisterView()  # Create the view first
+        register_controller = RegisterController(view=register_view, user_model=self.user_model, app=self)
+        register_view.controller = register_controller
+
+        self.root_widget.clear_widgets()
+        self.root_widget.add_widget(register_view)
+
 
     def go_to_product_management(self):
         product_view = ProductView(controller=self.product_controller)
